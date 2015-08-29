@@ -25,6 +25,8 @@ inline void Stack<T>::push(T value){
 
 template<class T>
 inline void Stack<T>::pop(){
+    if (isEmpty()) return;
+
     Node<T> *tmp = top;
     top = top->getPrev();
     delete tmp;
