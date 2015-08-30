@@ -16,6 +16,10 @@ class List {
         bool find(int value, Node **&node);
         void print();
         void reverse();
+        int max();
+        int min();
+        List* join(List *&list);
+        List* intersection(List *&list);
     private:
         Node *head;
 };

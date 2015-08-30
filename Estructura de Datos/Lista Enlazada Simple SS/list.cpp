@@ -54,3 +54,51 @@ void List::reverse() {
     head = node;
 }
 
+int List::max() {
+    Node *node = head;
+
+    while (node) {
+        if (!node->getNext())
+            return node->getValue();
+        node = node->getNext();
+    }
+
+    return 0;
+}
+
+int List::min() {
+    return head->getValue();
+}
+
+List* List::join(List *&list) {
+    List *newList = new List();
+    Node *node = head;
+    
+    while (node) {
+        newList->add(node->getValue());
+        node = node->getNext();
+    }
+
+    node = list->head;
+    while (node) {
+        newList->add(node->getValue());
+        node = node->getNext();
+    }
+
+    return newList;
+}
+
+List* List::intersection(List *&list) {
+    List *newList = new List();
+    Node *node = head;
+    Node **tmp = 0;
+
+    while (node) {
+        if (list->find(node->getValue(), tmp))
+            newList->add(node->getValue());
+        node = node->getNext();
+    }
+
+    return newList;
+}
+
