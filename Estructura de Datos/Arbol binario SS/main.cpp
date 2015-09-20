@@ -32,6 +32,13 @@ int main(void) {
     cout << "Abuelo de 2: " << tree.gparent(2) << endl;
 
     tree.print();
+    tree.printPreOrderIterative();
+    tree.printLevels();
+    cout << tree.max() << endl;
+
+    tree.printDot("arbol.dot");
+    tree.removeNode2Childs(5);
+    tree.printDot("arbol2.dot");
 
     return 0;
 }
