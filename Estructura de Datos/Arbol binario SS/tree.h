@@ -72,6 +72,7 @@ void Tree<T>::print() {
 
 template<class T>
 void Tree<T>::preOrder(Node<T> *&node) {
+    if (!node) return;
     cout << node->value << " ";
     if (node->childs[0]) preOrder(node->childs[0]);
     if (node->childs[1]) preOrder(node->childs[1]);
@@ -79,6 +80,7 @@ void Tree<T>::preOrder(Node<T> *&node) {
 
 template<class T>
 void Tree<T>::inOrder(Node<T> *&node) {
+    if (!node) return;
     if (node->childs[0]) inOrder(node->childs[0]);
     cout << node->value << " ";
     if (node->childs[1]) inOrder(node->childs[1]);
@@ -86,6 +88,7 @@ void Tree<T>::inOrder(Node<T> *&node) {
 
 template<class T>
 void Tree<T>::posOrder(Node<T> *&node) {
+    if (!node) return;
     if (node->childs[0]) posOrder(node->childs[0]);
     if (node->childs[1]) posOrder(node->childs[1]);
     cout << node->value << " ";
