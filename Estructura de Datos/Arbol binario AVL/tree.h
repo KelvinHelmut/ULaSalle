@@ -42,8 +42,6 @@ void Tree<T>::add(T value) {
     while (!nodes.empty()) {
         (*nodes.top())->factor += factors.top() * 2 - 1;
         if ((*nodes.top())->factor == 2 || (*nodes.top())->factor == -2) {
-                rs((*nodes.top()), factors.top());
-                return;
             if ((factors.top() > 0  && tmp > 0) || (factors.top() < 0  && tmp < 0))
                 rs((*nodes.top()), factors.top());
             else 
