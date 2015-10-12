@@ -1,66 +1,33 @@
 #ifndef TREEINTERVAL
 #define TREEINTERVAL
 
-#include "tree.h"
+#include "treeredblack.h"
 #include "nodeinterval.h"
 #include <fstream>
 
 template<class T>
-class TreeInterval : public Tree<Interval<T>*> {
-public:
-    TreeInterval() : root(0) {}
-    void add(Interval<T>* value);
-    void show(std::ostream &out);
-    void dot(char* file);
+class TreeInterval : public TreeRedBlack<Interval<T>*> {
 private:
-    bool add(Node<Interval<T>*> *&node, Interval<T> *&value);
-    void show(std::ostream &out, Node<Interval<T>*> *&node);
+    bool add(Interval<T> *&value, Node<Interval<T>*> *&node);
     void dot(std::ostream &, Node<Interval<T>*> *&);
-
-    Node<Interval<T>*> *root;
 };
 
 template<class T>
-void TreeInterval<T>::add(Interval<T>* value) {
-    add(root, value);
-}
-
-template<class T>
-void TreeInterval<T>::show(std::ostream &out) {
-    show(out, root);
-}
-
-template<class T>
-bool TreeInterval<T>::add(Node<Interval<T>*> *&node, Interval<T> *&value) {
+bool TreeInterval<T>::add(Interval<T> *&value, Node<Interval<T> *> *&node) {
+    std::cout << "add interval" <<std::endl;
     if (!node) {
         node = new NodeInterval<T>(value);
         return true;
     }
-    if (node->getValue()->getLow() == value->getLow() && node->getValue()->getHigh() == value->getHigh()) return false;
-    if (add(node->getLink(node->getValue()->getLow() < value->getLow()), value)) {
-        NodeInterval<T> *me = (NodeInterval<T>*) node;
-        if (me->getMax() < value->getHigh())
-            me->setMax(value->getHigh());
-        return true;
+    //if (*node->getValue() == value) return false;
+    if (add(value, node->getLink(node->getValue()->getLow() < value->getLow()))) {
+        //return true;
+        node->getLink(node->getValue()->getLow() < value->getLow())->setLink(node, 2);
+        this->case1(node->getLink(node->getValue()->getLow() < value->getLow()));
     }
+    if (((NodeInterval<T>*) node)->getMax() < value->getHigh())
+        ((NodeInterval<T>*) node)->setMax(value->getHigh());
     return false;
-}
-
-template<class T>
-void TreeInterval<T>::show(std::ostream &out, Node<Interval<T>*> *&node) {
-    if (!node) return;
-    out << "[" << node->getValue()->getLow() << ", " << node->getValue()->getHigh() << "]";
-
-    if (node->getLink(0)) show(out, node->getLink(0));
-    if (node->getLink(1)) show(out, node->getLink(1));
-}
-
-template<class T>
-void TreeInterval<T>::dot(char* file) {
-    std::ofstream out(file);
-    out << "digraph G {" << std::endl;
-    dot(out, root);
-    out << "}";
 }
 
 template<class T>
@@ -68,7 +35,11 @@ void TreeInterval<T>::dot(std::ostream &out, Node<Interval<T>*> *&node) {
     if (!node) return;
     NodeInterval<T> *me = (NodeInterval<T>*) node;
     NodeInterval<T> *child;
-    out << "\"[" << node->getValue()->getLow() << "," << node->getValue()->getHigh() << "] (" << me->getMax() << ")\"" << std::endl;
+
+    out << "\"[" << node->getValue()->getLow() << "," << node->getValue()->getHigh() << "] (" << me->getMax() << ")\"";
+    if (me->getColor() == NodeRB<T>::RED) out << "[color=red]";
+    out << std::endl;
+
     if (node->getLink(0)) {
         child = (NodeInterval<T>*) node->getLink(0);
         out << "\"[" << node->getValue()->getLow() << "," << node->getValue()->getHigh() << "] (" << me->getMax() << ")\"" << "->"

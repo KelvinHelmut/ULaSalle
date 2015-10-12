@@ -11,6 +11,9 @@ public:
     void setLow(T);
     void setHigh(T);
 
+    bool operator ==(Interval<T> &interval);
+    bool operator <(Interval<T> &interval);
+
 private:
     T values[2];
 };
@@ -45,6 +48,18 @@ void Interval<T>::setLow(T low) {
 template<class T>
 void Interval<T>::setHigh(T high) {
     values[1] = high;
+}
+
+template<class T>
+bool Interval<T>::operator ==(Interval<T> &interval) {
+    std::cout <<" == " <<std::endl;
+    return getLow() == interval->getLow() && getHigh() == interval->getHigh();
+}
+
+template<class T>
+bool Interval<T>::operator <(Interval<T> &interval) {
+    std::cout <<" < " <<std::endl;
+    return getLow() < interval->getLow();
 }
 
 #endif // INTERVAL

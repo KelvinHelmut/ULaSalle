@@ -10,6 +10,7 @@ public:
         RED, BLACK
     };
 
+    NodeRB();
     NodeRB(T);
     T getValue();
     Node<T>*& getLink(int);
@@ -17,11 +18,24 @@ public:
     Color getColor() { return color; }
     void setColor(Color);
 
-private:
+    bool operator < (Node<T> &);
+    bool operator <= (Node<T> &);
+    bool operator > (Node<T> &);
+    bool operator >= (Node<T> &);
+    bool operator == (Node<T> &);
+
+protected:
     T value;
+
+private:
     Color color;
     Node<T> *links[3];
 };
+
+template<class T>
+NodeRB<T>::NodeRB() : color(NodeRB::RED) {
+    links[0] = links[1] = links[2] = 0;
+}
 
 template<class T>
 NodeRB<T>::NodeRB(T value) : value(value), color(NodeRB::RED) {
@@ -46,6 +60,31 @@ void NodeRB<T>::setLink(Node<T> *node, int i) {
 template<class T>
 void NodeRB<T>::setColor(Color color) {
     this->color = color;
+}
+
+template<class T>
+bool NodeRB<T>::operator < (Node<T> &node) {
+    return getValue() < node.getValue();
+}
+
+template<class T>
+bool NodeRB<T>::operator <= (Node<T> &node) {
+    return this->operator <(node) || this->operator ==(node);
+}
+
+template<class T>
+bool NodeRB<T>::operator > (Node<T> &node) {
+    return !this->operator <=(node);
+}
+
+template<class T>
+bool NodeRB<T>::operator >= (Node<T> &node) {
+    return !this->operator <(node);
+}
+
+template<class T>
+bool NodeRB<T>::operator == (Node<T> &node) {
+    return getValue() == node.getValue();
 }
 
 #endif // NODERB

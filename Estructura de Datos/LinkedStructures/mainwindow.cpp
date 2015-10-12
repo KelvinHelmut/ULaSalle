@@ -21,16 +21,16 @@ MainWindow::~MainWindow()
 void MainWindow::on_btnAdd_clicked()
 {
     QString texto = ui->txtValue->text();
-    tree2->add(texto.toInt());
+    //tree2->add(texto.toInt());
 
-    /*
+
     QStringList values = texto.split(",");
 
     int low = values.at(0).toInt();
     int high = values.at(1).toInt();
     tree->add(new Interval<int>(low, high));
-*/
-    tree2->dot("tree.dot");
+
+    tree->dot("tree.dot");
     system("dot -Tpng tree.dot -o tree.png");
     ui->image->setPixmap(QString("tree.png"));
 

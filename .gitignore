@@ -5,3 +5,5 @@
 *.dot
 *.png
 build-*
+*.pro
+*.user
