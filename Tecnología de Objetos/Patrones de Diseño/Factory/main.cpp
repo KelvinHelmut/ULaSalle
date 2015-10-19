@@ -28,4 +28,6 @@ int main(void) {
 
     s = ShapeFactory::getShape(ShapeFactory::SQUARE, 3);
     std::cout << s->getArea() << std::endl;
+
+    return 0;
 }
